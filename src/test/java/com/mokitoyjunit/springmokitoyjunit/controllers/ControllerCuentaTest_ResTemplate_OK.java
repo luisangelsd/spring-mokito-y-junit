@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ControllerCuentaTest_ResTemplate_OK {
+class  addControllerCuentaTest_ResTemplate_OK {
 
     @Autowired
     private TestRestTemplate  testRestTemplate;
