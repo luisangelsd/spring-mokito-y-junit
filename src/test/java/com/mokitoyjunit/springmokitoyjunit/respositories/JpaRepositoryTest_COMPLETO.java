@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DataJpaTest
-public class JpaRepositoryTestOk {
+public class JpaRepositoryTest_COMPLETO {
 
     //-- Test: Repositorios
     //-- Aquí estamos probando directamente la Interfaz con JPA

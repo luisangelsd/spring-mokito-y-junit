@@ -7,7 +7,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,8 +59,8 @@ public class RestControllerAdvice {
 
 
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    @ExceptionHandler(ExceptionSaldoUnsuficiente.class)
-    public Map<String, Object> exceptionSaldoUnsuficiente(ExceptionSaldoUnsuficiente ex){
+    @ExceptionHandler(RuntimeExceptionSaldoUnsuficiente.class)
+    public Map<String, Object> exceptionSaldoUnsuficiente(RuntimeExceptionSaldoUnsuficiente ex){
 
         //-- Preparando ResponseBody
         this.responseBody=new HashMap<>();

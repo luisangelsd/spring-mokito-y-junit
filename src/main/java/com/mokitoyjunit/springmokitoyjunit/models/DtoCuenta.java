@@ -1,6 +1,6 @@
 package com.mokitoyjunit.springmokitoyjunit.models;
 
-import com.mokitoyjunit.springmokitoyjunit.exceptions.ExceptionSaldoUnsuficiente;
+import com.mokitoyjunit.springmokitoyjunit.exceptions.RuntimeExceptionSaldoUnsuficiente;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -9,7 +9,6 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Objects;
 
 @Entity
 @Getter @Setter  @EqualsAndHashCode
@@ -51,7 +50,7 @@ public class DtoCuenta implements Serializable {
     public void quitarDinero(BigDecimal monto){
         BigDecimal nuevoSaldo=this.saldo.subtract(monto);
         if (nuevoSaldo.compareTo(BigDecimal.ZERO)<0){
-            throw  new ExceptionSaldoUnsuficiente("Saldo Insuficiente: Actualmente tienes: $"+this.saldo+" y quieres restar: $"+monto);
+            throw  new RuntimeExceptionSaldoUnsuficiente("Saldo Insuficiente: Actualmente tienes: $"+this.saldo+" y quieres restar: $"+monto);
         }
         this.saldo=this.saldo.subtract(monto);
     }

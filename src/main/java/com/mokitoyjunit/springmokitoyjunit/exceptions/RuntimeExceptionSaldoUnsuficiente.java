@@ -1,8 +1,8 @@
 package com.mokitoyjunit.springmokitoyjunit.exceptions;
 
-public class ExceptionSaldoUnsuficiente extends  RuntimeException{
+public class RuntimeExceptionSaldoUnsuficiente extends  RuntimeException{
 
-    public ExceptionSaldoUnsuficiente(String message) {
+    public RuntimeExceptionSaldoUnsuficiente(String message) {
         super(message);
     }
 }

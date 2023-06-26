@@ -20,7 +20,7 @@ import java.util.List;
 
 //-- Implementación: SpringBoot
 @SpringBootTest
-class ServiciosUsuarioTest_SpringBoot_OK {
+class ServiciosUsuarioTest_SpringBoot_COMPLETO {
 
     @MockBean
     private IRepositoryCuenta iRepositoryCuenta;
@@ -143,8 +143,6 @@ class ServiciosUsuarioTest_SpringBoot_OK {
         dto.setPersona("persona 1 - editado");
 
         //-- Simulamos Datos
-
-
 
     }
 

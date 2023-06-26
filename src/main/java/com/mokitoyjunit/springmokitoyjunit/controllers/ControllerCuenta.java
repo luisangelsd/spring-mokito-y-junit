@@ -2,7 +2,7 @@ package com.mokitoyjunit.springmokitoyjunit.controllers;
 
 import com.mokitoyjunit.springmokitoyjunit.dtos.DtoResponse;
 import com.mokitoyjunit.springmokitoyjunit.dtos.DtoTransferirDinero;
-import com.mokitoyjunit.springmokitoyjunit.exceptions.ExceptionSaldoUnsuficiente;
+import com.mokitoyjunit.springmokitoyjunit.exceptions.RuntimeExceptionSaldoUnsuficiente;
 import com.mokitoyjunit.springmokitoyjunit.exceptions.RuntimeExceptionDataNotFound;
 import com.mokitoyjunit.springmokitoyjunit.models.DtoCuenta;
 import com.mokitoyjunit.springmokitoyjunit.services.IServiciosUsuario;
@@ -10,7 +10,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -37,6 +36,43 @@ public class ControllerCuenta {
     // --------------------------- CRUD CUENTA --------------------------- //
 
 
+    //------------------------------ Buscar por Id
+    @GetMapping("ver/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public DtoCuenta verUsuarioById(@PathVariable(name = "id") Long id) {
+
+        //-- Consumir servicio
+        this.dtoCuenta = this.serviciosUsuario.findById(id);
+
+        //-- Validar si no esta vacio
+        if (this.dtoCuenta==null) {
+            throw new RuntimeExceptionDataNotFound("La cuenta no existe");
+        }
+
+        //-- Regresar respuesta
+        return this.dtoCuenta;
+    }
+
+
+    //----------------------------- Listar todos
+    @GetMapping("ver/all")
+    @ResponseStatus(HttpStatus.OK)
+    public List<DtoCuenta> findAllUsers() {
+
+
+        //-- Validar que existan registros
+        this.listDtoCuenta = this.serviciosUsuario.findAll();
+        if (this.listDtoCuenta==null) {
+            throw new RuntimeExceptionDataNotFound("Lo sentimos, no hay registros a mostrar");
+        }
+
+        //-- Regresar respuesta
+        return this.listDtoCuenta;
+
+    }
+
+    //----------------------------- Guardar Cuenta
+
     @PostMapping("save")
     @ResponseStatus(HttpStatus.CREATED)
     public DtoCuenta saveCuenta(@Valid @RequestBody DtoCuenta dtoRequest){
@@ -49,6 +85,8 @@ public class ControllerCuenta {
             return this.dtoCuenta;
     }
 
+
+    //----------------------------- Actualizar Cuenta
 
     @PutMapping("update/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -71,40 +109,7 @@ public class ControllerCuenta {
     }
 
 
-    //-- Buscar por Id
-    @GetMapping("ver/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public DtoCuenta verUsuarioById(@PathVariable(name = "id") Long id) {
-
-            //-- Consumir servicio
-            this.dtoCuenta = this.serviciosUsuario.findById(id);
-
-            //-- Validar si no esta vacio
-            if (this.dtoCuenta==null) {
-                throw new RuntimeExceptionDataNotFound("La cuenta no existe");
-            }
-
-            //-- Regresar respuesta
-            return this.dtoCuenta;
-    }
-
-
-    //-- Listar todos
-    @GetMapping("ver/all")
-    @ResponseStatus(HttpStatus.OK)
-    public List<DtoCuenta> findAllUsers() {
-
-
-            //-- Validar que existan registros
-            this.listDtoCuenta = this.serviciosUsuario.findAll();
-            if (this.listDtoCuenta==null) {
-               throw new RuntimeExceptionDataNotFound("Lo sentimos, no hay registros a mostrar");
-            }
-
-            //-- Regresar respuesta
-            return this.listDtoCuenta;
-
-    }
+    //----------------------------- Eliminar Cuenta
 
 
     @DeleteMapping("delete/{id}")
@@ -125,7 +130,7 @@ public class ControllerCuenta {
     }
 
 
-// --------------------------- OTROS --------------------------- //
+    //----------------------------- Transferir Saldo
 
     @PostMapping(path = "/transferir")
     @ResponseStatus(HttpStatus.GONE)
@@ -147,7 +152,7 @@ public class ControllerCuenta {
             //-- Validar Dinero
         BigDecimal saldoEstimado=cOrigen.getSaldo().subtract(dto.getMonto());
         if (saldoEstimado.compareTo(BigDecimal.ZERO)<0.){
-            throw new ExceptionSaldoUnsuficiente("La cuenta "+dto.getIdCuentaOrigen()+" no tiene saldo suficiente");
+            throw new RuntimeExceptionSaldoUnsuficiente("La cuenta "+dto.getIdCuentaOrigen()+" no tiene saldo suficiente");
         }
 
             //-- Realizar el servicio

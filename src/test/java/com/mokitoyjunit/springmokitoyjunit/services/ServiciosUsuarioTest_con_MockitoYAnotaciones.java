@@ -1,7 +1,7 @@
 package com.mokitoyjunit.springmokitoyjunit.services;
 
 import com.mokitoyjunit.springmokitoyjunit.Datos;
-import com.mokitoyjunit.springmokitoyjunit.exceptions.ExceptionSaldoUnsuficiente;
+import com.mokitoyjunit.springmokitoyjunit.exceptions.RuntimeExceptionSaldoUnsuficiente;
 import com.mokitoyjunit.springmokitoyjunit.repositories.IRepositoryBanco;
 import com.mokitoyjunit.springmokitoyjunit.repositories.IRepositoryCuenta;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 
@@ -27,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @ExtendWith(MockitoExtension.class)
-class Notas_ServiciosUsuarioTest_ConAnotaciones_Mockito_DatosSimulados {
+class ServiciosUsuarioTest_con_MockitoYAnotaciones {
 
 
     //== Añadimos nuestras Interfaces Repositories
@@ -90,7 +89,7 @@ class Notas_ServiciosUsuarioTest_ConAnotaciones_Mockito_DatosSimulados {
         Mockito.when(this.repositoryBanco.findById(1L)).thenReturn(Datos.getBanco01());  //-- Tiene 3,000 pesos
 
         //-- Servicios: Ejecutamos servicio, Enviamos 500 pesos y creamos el error
-        assertThrows(ExceptionSaldoUnsuficiente.class, ()->{
+        assertThrows(RuntimeExceptionSaldoUnsuficiente.class, ()->{
             serviciosUsuario.transferirDinero(1L, 2L, new BigDecimal("1100"), 1L);
         });
     }

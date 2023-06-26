@@ -1,12 +1,10 @@
 package com.mokitoyjunit.springmokitoyjunit.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mokitoyjunit.springmokitoyjunit.Datos;
 import com.mokitoyjunit.springmokitoyjunit.dtos.DtoTransferirDinero;
 import com.mokitoyjunit.springmokitoyjunit.models.DtoCuenta;
 import com.mokitoyjunit.springmokitoyjunit.services.IServiciosUsuario;
-import jdk.jfr.ContentType;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +12,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 
@@ -33,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ControllerCuentaTest_MockMvc_OK {
+class ControllerCuentaTest_MockMvc_COMPLETO {
 
     //-- Inyectamos servicio
     @Autowired
@@ -62,12 +57,13 @@ class ControllerCuentaTest_MockMvc_OK {
 
         //-- Servicio + Test
         this.mockMvc.perform(MockMvcRequestBuilders.get("/cuenta/ver/1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.persona").value("persona 1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.saldo").value(1000));
+                .contentType(MediaType.APPLICATION_JSON))                   //-- Request: Tipo de datos enviados en request body
+                .andExpect(MockMvcResultMatchers.status().isOk())           //-- Response: Tipo de status que espera recibir
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))  //-- Response: Tipo de response body
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))     //-- Response: Validar por parametro
+                .andExpect(MockMvcResultMatchers.jsonPath("$.persona").value("persona 1"))      //-- Response: Validar por parametro
+                .andExpect(MockMvcResultMatchers.jsonPath("$.saldo").value(1000))               //-- Response: Validar por parametro
+                .andExpect(jsonPath("$.otroParametro").doesNotExist());                                     //-- Response: Validar que no exista parametro
     }
 
 
@@ -216,7 +212,7 @@ class ControllerCuentaTest_MockMvc_OK {
     //---------------------------------------------------------------------------------------
 
     @Test
-    @DisplayName("deleteById() - ¡Elimando con Exito!")
+    @DisplayName("deleteById() - ¡Eliminado con Exitó!")
     @Order(5)
     void deleteById() throws Exception {
 
@@ -234,7 +230,7 @@ class ControllerCuentaTest_MockMvc_OK {
     }
 
     @Test
-    @DisplayName("deleteById() - No Eleminando - NotFound")
+    @DisplayName("deleteById() - No Eliminando - NotFound")
     @Order(5)
     void deleteById2() throws Exception {
 

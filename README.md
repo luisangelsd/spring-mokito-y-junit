@@ -3,6 +3,16 @@ El objetivo de este proyecto es implementar una Api Restful con los métodos HTT
 
 **Nota:** El proyecto consiste en el funcionamiento de un banco, en donde puedes administrar cuentas y realizar transferencias entre ellas.
 
-## Probar con swagger:
-Descarga el proyecto desde el repositorio de GitHub, ejecútalo en tu IDE favorito he ingresa a esta url para poder probar los Endpoinds.
+## Probar con Postman:
+Dentro del proyecto encontraras un archivo .json para importar dentro de Postman. Solamente tienes que ejecutar los Endpoinds ya que ya vienen configurados.
+
+## Workspace H2
++ Url: http://localhost:8080/h2-console/
++ DriveClass:org.h2.Driver
++ JDBC URL:jdbc:h2:mem:testdb
++ Username:sa
++ Username:sa
++ Password:
+
+Nota: El proyecto tiene archivos import.sql para crear registros por defecto. Este arcivo existe en la carpeta main y test
 
